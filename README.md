@@ -1,3 +1,7 @@
-The OpenShift `nodejs` cartridge documentation can be found at:
+Final Project: Lecture Dashboard
+=====
+An Express.js + MongoDB application that gives lecturers real-time feedback
 
-http://openshift.github.io/documentation/oo_cartridge_guide.html#nodejs
+Have a look here: [http://ld-kulpreet.rhcloud.com/](http://ld-kulpreet.rhcloud.com/)
+
+To see the AJAX test results, go to [http://ld-kulpreet.rhcloud.com/test](http://ld-kulpreet.rhcloud.com/test) and look at the console output.
