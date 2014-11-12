@@ -86,4 +86,7 @@ var server = app.listen(app.get('port'), ip, function() {
  debug('Express server listening on port ' + server.address().port);
 });
 
+var io = require('socket.io').listen(server);
+require('./routes/sockets')(io);
+
 module.exports = app;
