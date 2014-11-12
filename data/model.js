@@ -1,7 +1,12 @@
 var mongoose = require('mongoose');
-var bcrypt = require('bcrypt'); // Used for hashing passwords
 
 var Schema = mongoose.Schema,
     ObjectId = Schema.ObjectId;
-	
 
+var lectureSchema = new Schema({
+	slug : String
+}); 
+
+var Lecture = mongoose.model('Lecture', lectureSchema);
+
+exports.Lecture = Lecture;
