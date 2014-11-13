@@ -14,6 +14,69 @@
     <script src="/js/utils.js"></script>
   </head>
   <body>
-  	
+	    	<div id="status" style="display: none;">host</div> 
+	      <div class="container"> 
+    	
+	  		<div id="main" class="row">
+		
+	  		  <div class="col-md-4">
+	  			<h1>youtube jukebox</h1>
+	  			<h4>realtime collaborative playlists.</h4>
+	  			<br>
+			
+	  			<div class="panel panel-danger fill">
+	  				<div class="panel-heading">
+	  					<div class="input-group input-group-sm">
+	  					  <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
+	  					  <input type="text" id="youtube-search" class="form-control" placeholder="YouTube Search">
+	  					</div>
+	  				  </div>
+	  				  <div class="panel-body" id="search-results"></div> 
+	  			</div>
+	  			<p>Send your friends a link to this room to allow them to add songs to the queue:</p>
+	  			<div id="link" class="input-group input-group-sm">
+	  			  <span class="input-group-addon"><span class="glyphicon glyphicon-link"></span></span>
+	  			  <input type="text" id="link-text" class="form-control" placeholder="Link" readonly="">
+	  			</div>
+	  			<br>
+	  			<p>Listeners: <span id="listeners"></span></p>
+	  			<br>
+	  		  </div>
+	  		  <br>
+	  		  <div class="col-md-8">
+		  	
+	  		  	<div class="embed-responsive embed-responsive-16by9" id="player">
+	  				<div id="waiting" style="display: none;">
+	  					<h3>Search + Add Songs To The Queue</h3>
+	  				</div>
+	  			  	<object type="application/x-shockwave-flash" id="myytplayer" data="http://www.youtube.com/v/FyXtoTLLcDk?enablejsapi=1&amp;playerapiid=ytplayer&amp;version=3&amp;autoplay=1" width="640" height="390"><param name="allowScriptAccess" value="always"></object>
+	  			</div>
+		  	
+	  		  	<div id="queue-container" class="panel panel-default">
+		  		
+	  		  		<div id="queue" class="panel-body"><ul id="queue-songs" class="list-group">
+    
+	      <li class="list-group-item" style="padding: 10px" data-id="">
+	      <div class="media">
+	        <span class="pull-left">
+	          <img class="media-object" src="http://i.ytimg.com/vi/FyXtoTLLcDk/0.jpg" height="50" width="67" alt="thumbnail">
+	        </span>
+	        <div class="media-body">
+	          <h4 class="media-heading">Justin Timberlake - TKO</h4>   
+	          <span class="date">51309988 views | 07:10</span>
+	        </div>
+	      </div>
+	      </li>
+	  </ul></div>
+				
+	  				<div class="panel-footer">Welcome, .
+	  				<span class="right"><a href="/auth/logout">Leave</a></span>
+				
+	  				</div>
+	  		     </div>
+	  		  <span id="footer">youtube jukebox by Kulpreet Chilana, Dylan Joss, Yonglin Wu</span>
+	  		  </div>
+	  		</div>
+	  	</div>
   </body>
 </html>
