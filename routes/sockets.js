@@ -12,7 +12,15 @@ module.exports = function(io) {
 				slug = lecture._id
 		      }
 		    });
-		} 
+		} else {
+		    model.Lecture.findOne({
+		      _id: slug
+		    }, function(err, lecture) {
+		      if (lecture) {
+				socket.emit('lecture', lecture);
+		      }
+		    });
+		}
 		socket.join(slug);
 		
 		// This is an example of how to emit to everyone in the room
