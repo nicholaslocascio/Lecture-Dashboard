@@ -1,11 +1,14 @@
 var mongoose = require('mongoose');
 
 var Schema = mongoose.Schema,
-    ObjectId = Schema.ObjectId;
+  ObjectId = Schema.ObjectId;
 
 var lectureSchema = new Schema({
-	slug : String
-}); 
+  slug: String,
+  className: String,
+  lecturerName: String,
+  topic: String
+});
 
 var Lecture = mongoose.model('Lecture', lectureSchema);
 
