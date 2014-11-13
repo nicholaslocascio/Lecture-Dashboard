@@ -8,4 +8,14 @@ $(function() {
 	socket.on('news', function (data) {
 	    console.log(data);
 	});
+	
+	$('.huh-button').click(function(){
+		if ($(this).hasClass('green-button')) {
+			$(this).removeClass('green-button');
+			$(this).text('Huh?');
+		} else {
+			$(this).addClass('green-button');
+			$(this).text('I get it!');
+		}
+	});
 });
