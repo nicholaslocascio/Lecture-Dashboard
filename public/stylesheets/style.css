@@ -65,8 +65,14 @@ a:hover {
   padding: 50px;
   font-size: 30px;
 }
+.huh-button:focus {
+  outline: 0 !important;
+}
 .green-button {
-  background-color: green;
+  background-color: green !important;
+}
+.green-button:active {
+  background-color: green !important;
 }
 .green-button:hover {
   background-color: #408000;
