@@ -67,6 +67,6 @@ $(function() {
     console.log('woo');
     console.log(understandsArray);
 
-  }, 1000);
+  }, 1500);
 
 });
