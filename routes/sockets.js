@@ -9,7 +9,8 @@ module.exports = function(io) {
 		      slug: slug
 		    }, function(err, lecture) {
 		      if (lecture) {
-				slug = lecture._id
+				slug = lecture._id;
+				lecture.onNewStudent();
 		      }
 		    });
 		} else {
