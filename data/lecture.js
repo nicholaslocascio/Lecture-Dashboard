@@ -22,7 +22,10 @@ var lectureSchema = new Schema({
 
 lectureSchema.methods.createNewScore = function(totalDelta, confusedDelta){
 	console.log("hello");
-	var lastScore = this.scores[this.scores.length-1];
+	if (this.scores.length != 0){
+		var lastScore = this.scores[this.scores.length-1];
+	}
+	lastScore = lastScore || {total:0, confused:0};
 	var newScore = new Score({
 		total:lastScore.total+totalDelta,
 		confused: lastScore.confused+confusedDelta
