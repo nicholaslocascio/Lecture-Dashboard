@@ -1,6 +1,5 @@
 var mongoose = require('mongoose');
 var timestamps = require('mongoose-timestamp');
-var captainHook  = require('captain-hook');
 
 var Schema = mongoose.Schema,
   ObjectId = Schema.ObjectId;
@@ -10,7 +9,6 @@ var scoreSchema = new Schema({
   confused: Number,
 });
 scoreSchema.plugin(timestamps);
-scoreSchema.plugin(captainHook);
 var Score = mongoose.model('Score', scoreSchema);
 
 
@@ -33,11 +31,6 @@ lectureSchema.methods.createNewScore = function(totalDelta, confusedDelta){
 	this.save();
 	return newScore;
 };
-
-scoreSchema.postCreate(function(doc, next){
-	console.log(JSON.stringify(doc));
-	next();
-});
 
 var Lecture = mongoose.model('Lecture', lectureSchema);
 
