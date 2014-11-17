@@ -9,18 +9,28 @@ var scoreSchema = new Schema({
   confused: Number,
 });
 scoreSchema.plugin(timestamps);
+var Score = mongoose.model('Score', scoreSchema);
 
 var lectureSchema = new Schema({
   slug: String,
   className: String,
   lecturerName: String,
   topic: String,
-  scores: [scoreSchema]
+  scores: [Score]
 });
 
 lectureSchema.methods.createNewScore = function(){
 	console.log("hello");
+	var newScore = new Score({
+		total:5,
+		confused: 3
+	});
+	newScore.save();
 };
+
+scoreSchema.post('save', function(doc){
+	console.log(JSON.stringify(doc));
+});
 
 var Lecture = mongoose.model('Lecture', lectureSchema);
 
