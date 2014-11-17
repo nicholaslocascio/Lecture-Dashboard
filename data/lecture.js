@@ -19,7 +19,7 @@ var lectureSchema = new Schema({
   scores: [Score]
 });
 
-lectureSchema.methods.createNewScore = function(){
+lectureSchema.methods.createNewScore = function(totalDelta, confusedDelta){
 	console.log("hello");
 	var newScore = new Score({
 		total:5,

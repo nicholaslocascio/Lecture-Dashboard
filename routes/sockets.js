@@ -15,7 +15,7 @@ module.exports = function(io) {
       }, function(err, lecture) {
         if (lecture) {
           slug = lecture._id;
-          lecture.createNewScore(0, 1);
+          lecture.createNewScore(1, 0);
         }
       });
     } else {
