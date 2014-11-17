@@ -24,10 +24,13 @@ router.post('/lecture/new', function(req, res) {
   var lecturerName = req.body.lecturerName;
   var topic = req.body.topic;
 
-  var randomString = require('random-string');
-  var randomSlug = randomString({
-    length: 6
-  });
+  var adjNoun = require('adj-noun');
+
+  // seed it so your pairs are different than someone else using this lib
+  adjNoun.seed(1853);
+  // -> true
+
+  var randomSlug = adjNoun().join('-');
   var newLecture = new model.Lecture({
     slug: randomSlug,
     className: className,
