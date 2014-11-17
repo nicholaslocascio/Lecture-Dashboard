@@ -18,6 +18,7 @@ $(function() {
 
     post.done(function(data) {
       if (data) {
+       console.log(data);
         var lectureUrl = '/session/' + data._id;
         window.location.replace(lectureUrl);
       }

@@ -6,25 +6,32 @@ Handlebars.registerPartial('sessionLinks', Handlebars.templates['sessionLinks'])
 
 $(document).ready(function(){
   	
-	initializeMain()
-
+	initializeMain();
+	initializeStaticComponents();
+	initializeLectureComponents();
 
 
 })
 function initializeMain(){
-	$("#header-container").html(Handlebars.templates["header"]({}))
-	$("#lectureFooter-container").html(Handlebars.templates["lectureFooter"]({}))
-	$("#footer-static").html(Handlebars.templates["footer"]({}))
+	
 	$("#sessionLinks-container").html(Handlebars.templates["sessionLinks"]({}))
-	$("#lectureDetails-container").html(Handlebars.templates["lectureDetails"]({}))
+}
+function initializeStaticComponents(){
+	$("#header-container").html(Handlebars.templates["header"]({}))
+	$("#footer-static").html(Handlebars.templates["footer"]({}))
+}
+
+function initializeLectureComponents(){
 	event.preventDefault();
-
-    var url = '/api' + window.location.pathname;
-
-    console.log( url);
+    var url = '/api/session';
+    var sessionId = window.location.pathname.split("session/")[1];
+    console.log(sessionId);
+    var criteria = {"id":sessionId};
     // jQuery AJAX call for JSON
-    $.getJSON( url, function( data ) {
-    	console.log("data");
-    	console.log(data);
+    $.getJSON( url,criteria).done( function( data ) {
+    	data = data || {};
+    	$("#lectureDetails-container").html(Handlebars.templates["lectureDetails"](data));
+    	$("#lectureFooter-container").html(Handlebars.templates["lectureFooter"](data));
     });
+
 }

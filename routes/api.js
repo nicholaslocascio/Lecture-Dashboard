@@ -1,3 +1,4 @@
+var ObjectId = require('mongodb').ObjectID;
 /*
 REST API for Lecture Dashboard
 All server and database interaction described below
@@ -5,7 +6,7 @@ All server and database interaction described below
 */
 
 var express = require('express');
-var model = require('../data/model');
+var model = require('../data/lecture');
 var router = express.Router();
 
 /*
@@ -19,8 +20,8 @@ Response:
     error(500);  returns error message
 */
 router.post('/lecture/new', function(req, res) {
-  var className = req.body.class;
-  var lecturerName = req.body.lecturer;
+  var className = req.body.className;
+  var lecturerName = req.body.lecturerName;
   var topic = req.body.topic;
 
   var randomString = require('random-string');
@@ -53,14 +54,18 @@ Response:
     success(200): returns the newly creaeted lecture object 
     error(500);  returns error message
 */
-router.get('/session/:id', function(req, res) {
+router.get('/session', function(req, res) {
     var db = req.db;
-    var id = JSON.stringify(req.params.id);
-    var userCriteria = {"_id":id};
-    console.log(userCriteria)
-    db.collection('Lecture').findOne(userCriteria,function (err,item){
+    var userCriteria;
+    if(req.query.id){
+      userCriteria = {"_id":  req.query.id};
+    }else if(req.query.slug){
+      userCriteria = {"slug" : req.query.slug};
+    }
+    model.Lecture.findOne(userCriteria,function (err,item){
       res.json(item);
     });
 });
+
 
 module.exports = router;
