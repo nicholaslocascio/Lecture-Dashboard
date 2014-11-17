@@ -34,13 +34,27 @@ module.exports = function(io) {
       hello: 'world'
     });
 
+    socket.on('status update', function(msg) {
+      var dStudent = 0;
+      var dConfused = 0;
+      if (studentStatus == StudentStateEnum.Confused) {
+        studentStatus = StudentStateEnum.IGetIt;
+        dConfused = -1;
+      } else {
+        studentStatus = StudentStateEnum.Confused;
+        dConfused = 1;
+      }
+      var newScore = lecture.createNewScore(dStudent, dConfused);
+      io.to(slug).emit('status update', newScore);
+    });
+
     io.on('disconnect', function() {
       var dStudent = -1;
       var dConfused = 0;
       if (studentStatus == StudentStateEnum.Confused) {
         dConfused = 1;
       }
-      Lecture.createNewScore(dStudent, dConfused);
+      lecture.createNewScore(dStudent, dConfused);
     });
   });
 };
