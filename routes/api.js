@@ -27,7 +27,9 @@ router.post('/lecture/new', function(req, res) {
   var adjNoun = require('adj-noun');
 
   // seed it so your pairs are different than someone else using this lib
-  adjNoun.seed(1853);
+  var d = new Date();
+  var n = d.getTime();
+  adjNoun.seed(n);
   // -> true
 
   var randomSlug = adjNoun().join('-');
