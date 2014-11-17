@@ -10,8 +10,8 @@ router.get('/', function(req, res) {
   res.render('index');
 });
 
-router.get(new RegExp('session\/(.+)'), function(req, res) {
-  var session = req.params[0];
+router.get('/session/:id', function(req, res) {
+  var session = req.params.id;
   model.Lecture.findOne({
     _id: session
   }, function(err, lecture) {
@@ -23,8 +23,8 @@ router.get(new RegExp('session\/(.+)'), function(req, res) {
   });
 });
 
-router.get(new RegExp('class\/(.+)'), function(req, res) {
-  var slug = req.params[0];
+router.get("/class/:slug", function(req, res) {
+  var slug = req.params.slug;
   model.Lecture.findOne({
     slug: slug
   }, function(err, lecture) {

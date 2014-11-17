@@ -11,26 +11,26 @@ var scoreSchema = new Schema({
 scoreSchema.plugin(timestamps);
 var Score = mongoose.model('Score', scoreSchema);
 
+
 var lectureSchema = new Schema({
   slug: String,
   className: String,
   lecturerName: String,
   topic: String,
-  scores: [Score]
+  scores: [scoreSchema]
 });
 
 lectureSchema.methods.createNewScore = function(totalDelta, confusedDelta){
 	console.log("hello");
+	var lastScore = this.scores[this.scores.length-1];
 	var newScore = new Score({
-		total:5,
-		confused: 3
+		total:lastScore.total+totalDelta,
+		confused: lastScore.confused+confusedDelta
 	});
-	newScore.save();
+	this.scores.push(newScore);
+	this.save();
+	return newScore;
 };
-
-scoreSchema.post('save', function(doc){
-	console.log(JSON.stringify(doc));
-});
 
 var Lecture = mongoose.model('Lecture', lectureSchema);
 

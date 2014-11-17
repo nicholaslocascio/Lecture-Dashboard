@@ -12,6 +12,7 @@
 	<script src="/js/Chart.min.js"></script>
     <script src="/js/templates.js"></script>
 	<script src="/js/client.js" type="text/javascript" charset="utf-8"></script>
+	<script src="/js/lectureSession.js" type="text/javascript" charset="utf-8"></script>
   <script src="/js/utils.js"></script>
   <script src="/js/tinyColor.js" type="text/javascript"></script>
 	<script src="/js/dashboardChart.js" type="text/javascript"></script>
@@ -20,42 +21,18 @@
 	  <div id="main" class="container-fluid"> 
 		<div class="row">
 			<div class="col-md-3">
-	  			<h1 class="logo-white">huh?</h1>
-	  			<h4>realtime lecture dashboard.</h4>
-	  			<br>
-	  			<div class="panel panel-danger fill">
-	  				<div class="panel-heading">
-	  					<h4>Lecture Details</h4>
-	  				</div>
-	  				  <div class="panel-body">
-						<p><strong>Class:</strong> 6.046</p>
-	  				  	<p><strong>Topic:</strong> Bellman-Ford</p>
-						<p><strong>Lecturer:</strong> John Smith</p>
-	  				  </div> 
-	  			</div>
-	  			<p>Give this link to your audience members to get live feedback:</p>
-	  			<div id="link" class="input-group input-group-sm">
-	  			  <span class="input-group-addon"><span class="glyphicon glyphicon-link"></span></span>
-	  			  <input type="text" id="link-text" class="form-control" placeholder="Link" readonly>
-	  			</div>
-	  			<br>
+				<div id="header-container"></div>
+	  			<div id="lectureDetails-container" class="panel panel-danger fill"></div>
+	  			<div id="sessionLinks-container"></div>
 	  			<p>Members Connected: <span id="listeners">0</span></p>
-	  			<br>
 	  		</div>
 	  		<div id="graph-container" class="col-md-9 full-container">
-		      <div class="embed-responsive embed-responsive-16by9" id="player">
-	  			  	<canvas id="graph"></canvas>
-	  		  </div>
-		      <div class="panel panel-default">
-		  		<div class="panel-body"></div>
-				<div class="panel-footer">Welcome, John Smith.
-	  				<span class="right"><a href="/">End Lecture</a></span>
-				</div>
-	  		</div>
-			<div id="footer-static">
-				<p>huh? by Kulpreet Chilana, Eduardo De Leon, Nick Locascio, Matt Susskind</p>
-			</div>
-	  	  </div>
+			    <div class="embed-responsive embed-responsive-16by9" id="player">
+		  			<canvas id="graph"></canvas>
+		  		</div>
+			    <div id = "lectureFooter-container"class="panel panel-default"></div>
+				<div id="footer-static"></div>
+	  	    </div>
 		</div>
 	</div>
   </body>
