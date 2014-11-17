@@ -43,4 +43,24 @@ router.post('/lecture/new', function(req, res) {
   });
 });
 
+/*
+Create a new lecture session
+GET /api/session/new
+Request parameters:
+    slug: (String) name of the professor
+  <- FILL THIS OUT ->
+Response:
+    success(200): returns the newly creaeted lecture object 
+    error(500);  returns error message
+*/
+router.get('/session/:id', function(req, res) {
+    var db = req.db;
+    var id = JSON.stringify(req.params.id);
+    var userCriteria = {"_id":id};
+    console.log(userCriteria)
+    db.collection('Lecture').findOne(userCriteria,function (err,item){
+      res.json(item);
+    });
+});
+
 module.exports = router;

@@ -1,3 +1,4 @@
+
 $(function() {
   var socket = io.connect();
   socket.on('lecture', function(lecture) {

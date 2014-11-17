@@ -1,3 +1,8 @@
+//Handlebars.registerPartial('lectureForm', Handlebars.templates['lectureForm']);
+
+$(document).ready(function(){
+  //$(".form-container").html(Handlebars.templates["lectureForm"]({}))
+})
 $(function() {
   $("#createLectureForm").submit(function(event) {
 

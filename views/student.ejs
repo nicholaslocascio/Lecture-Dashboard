@@ -7,11 +7,14 @@
 	<script src="/js/jquery-1.11.1.min.js" type="text/javascript" charset="utf-8"></script>
 	<script src="/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
 	<script src="/js/jquery.cookie.js" type="text/javascript" charset="utf-8"></script>
+
 	<script src="/socket.io/socket.io.js"></script>
 	<script src="/js/handlebars.runtime.js"></script>
+	
 	<script src="/js/Chart.min.js"></script>
     <script src="/js/templates.js"></script>
 	<script src="/js/client.js" type="text/javascript" charset="utf-8"></script>
+	<script src="/js/student.js" type="text/javascript" charset="utf-8" ></script>
     <script src="/js/utils.js"></script>
 	<script>
 		//Chart.js Sample. Can replace this with whatever you want later.
@@ -55,24 +58,15 @@
 	  <div id="main" class="container-fluid"> 
 		<div class="row">
 			<div class="col-md-3">
-	  			<h1 class="logo-white">huh?</h1>
-	  			<h4>realtime lecture dashboard.</h4>
-	  			<br>
+	  			<div id="header-container">
+	  			</div>
 				<div id="status-button">
 					<button type="button" class="huh-button btn btn-warning btn-lg">
 					  Huh?
 					</button>
 				</div>
 				<br>
-	  			<div class="panel panel-danger fill">
-	  				<div class="panel-heading">
-	  					<h4>Lecture Details</h4>
-	  				</div>
-	  				  <div class="panel-body">
-						<p><strong>Class:</strong> 6.046</p>
-	  				  	<p><strong>Topic:</strong> Bellman-Ford</p>
-						<p><strong>Lecturer:</strong> John Smith</p>
-	  				  </div> 
+	  			<div id="lectureDetails-container"class="panel panel-danger fill"> 
 	  			</div>
 	  		</div>
 	  		<div id="graph-container" class="col-md-9 full-container">
@@ -80,7 +74,7 @@
 	  			  	<canvas id="graph"></canvas>
 	  		  </div>
 			<div id="footer-static">
-				<p>huh? by Kulpreet Chilana, Eduardo De Leon, Nick Locascio, Matt Susskind</p>
+			
 			</div>
 	  	  </div>
 		</div>
