@@ -10,7 +10,7 @@ module.exports = function(io) {
 		    }, function(err, lecture) {
 		      if (lecture) {
 				slug = lecture._id;
-				lecture.onNewStudent();
+				lecture.createNewScore(0,1);
 		      }
 		    });
 		} else {

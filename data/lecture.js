@@ -18,7 +18,7 @@ var lectureSchema = new Schema({
   scores: [scoreSchema]
 });
 
-lectureSchema.methods.onNewStudent = function(){
+lectureSchema.methods.createNewScore = function(){
 	console.log("hello");
 };
 
