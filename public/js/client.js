@@ -16,7 +16,7 @@ $(function() {
   // This is an example of how to receive an event in the client
   socket.on('status update', function(data) {
     console.log(data);
-    HUH.GRAPH.updateWithNewScore(score);
+    // HUH.GRAPH.updateWithNewScore(score);
   });
 
   $('.huh-button').click(function() {
