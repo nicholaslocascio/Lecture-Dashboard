@@ -18,6 +18,10 @@ var lectureSchema = new Schema({
   scores: [scoreSchema]
 });
 
+lectureSchema.methods.createNewScore = function(){
+	console.log("hello");
+};
+
 var Lecture = mongoose.model('Lecture', lectureSchema);
 
 exports.Lecture = Lecture;
