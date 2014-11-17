@@ -16,7 +16,7 @@ var lectureSchema = new Schema({
   className: String,
   lecturerName: String,
   topic: String,
-  scores: [Score]
+  scores: [scoreSchema]
 });
 
 lectureSchema.methods.createNewScore = function(totalDelta, confusedDelta){
@@ -25,7 +25,9 @@ lectureSchema.methods.createNewScore = function(totalDelta, confusedDelta){
 		total:5,
 		confused: 3
 	});
-	newScore.save();
+	this.scores.push(newScore);
+	this.save();
+	return newScore;
 };
 
 scoreSchema.post('save', function(doc){
