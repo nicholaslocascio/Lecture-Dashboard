@@ -168,18 +168,27 @@ $(function() {
     var lastPoint = chart.datasets[0].points[index - 1];
     var copiedPoint = jQuery.extend(true, {}, lastPoint);
     copiedPoint.value = newTimeSeriesDataPoint.value;
+
     var greenHue = 90.0;
     var redHue = 0.1;
     var weight = newTimeSeriesDataPoint.value;
     var hue = greenHue * sigmoid(weight) + redHue * (1.0 - sigmoid(weight));
-    console.log(hue);
     var s = 70;
     var l = 50;
     var colorString = "hsl(" + hue + ", " + s + ", " + l + ")";
     var fillColor = tinycolor(colorString);
 
+    var oldWeight = lastPoint.value;
+    var oldHue = greenHue * sigmoid(oldWeight) + redHue * (1.0 - sigmoid(oldWeight));
+    var oldColorString = "hsl(" + oldHue + ", " + s + ", " + l + ")";
+    var oldFillColor = tinycolor(oldColorString);
+
+    var gradient = ctx.createLinearGradient(0, 0, 100, 0);
+    gradient.addColorStop(0, oldFillColor);
+    gradient.addColorStop(1, fillColor);
+
     copiedPoint.strokeColor = fillColor.toHexString();
-    copiedPoint.fillColor = fillColor.toHexString();
+    copiedPoint.fillColor = gradient;
     copiedPoint.highlightFill = fillColor.toHexString();
     copiedPoint.highlightStroke = fillColor.toHexString();
     chart.datasets[0].points.push(copiedPoint);
@@ -211,7 +220,7 @@ $(function() {
     scaleStartValue: 0,
     pointDot: false,
     scaleOverlay: false,
-    animationSteps: 60,
+    animationSteps: 1,
     animationEasing: "linear",
     bezierCurve: false,
   });
@@ -221,7 +230,7 @@ $(function() {
     var lastValue = understandsTimeSeries[understandsTimeSeries.length - 1].value;
     var newValue = lastValue + ((randomScalingFactor() - 0.5) / 2.0);
     newValue = Math.max(Math.min(newValue, 1.0), 0.0);
-    if (randomScalingFactor() < 0.85) {
+    if (randomScalingFactor() < 0.1) {
       newValue = lastValue;
     }
     updateChart(lineChart, newValue);
