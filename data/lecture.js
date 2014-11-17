@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var timestamps = require('mongoose-timestamp');
+var captainHook  = require('captain-hook');
 
 var Schema = mongoose.Schema,
   ObjectId = Schema.ObjectId;
@@ -9,7 +10,9 @@ var scoreSchema = new Schema({
   confused: Number,
 });
 scoreSchema.plugin(timestamps);
+scoreSchema.plugin(captainHook);
 var Score = mongoose.model('Score', scoreSchema);
+
 
 var lectureSchema = new Schema({
   slug: String,
@@ -21,17 +24,19 @@ var lectureSchema = new Schema({
 
 lectureSchema.methods.createNewScore = function(totalDelta, confusedDelta){
 	console.log("hello");
+	var lastScore = this.scores[this.scores.length-1];
 	var newScore = new Score({
-		total:5,
-		confused: 3
+		total:lastScore.total+totalDelta,
+		confused: lastScore.confused+confusedDelta
 	});
 	this.scores.push(newScore);
 	this.save();
 	return newScore;
 };
 
-scoreSchema.post('save', function(doc){
+scoreSchema.postCreate(function(doc, next){
 	console.log(JSON.stringify(doc));
+	next();
 });
 
 var Lecture = mongoose.model('Lecture', lectureSchema);
