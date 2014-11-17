@@ -54,7 +54,12 @@ module.exports = function(io) {
       if (studentStatus == StudentStateEnum.Confused) {
         dConfused = 1;
       }
-      lecture.createNewScore(dStudent, dConfused);
+      model.Lecture.findOne({
+        _id: slug
+      }, function(err, lecture) {
+        var newScore = lecture.createNewScore(dStudent, dConfused);
+        io.to(slug).emit('status update', newScore);
+      });
     });
   });
 };
