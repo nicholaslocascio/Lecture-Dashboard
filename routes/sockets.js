@@ -1,4 +1,4 @@
-var model = require('../data/model');
+var model = require('../data/lecture');
 
 module.exports = function(io) {
     io.sockets.on('connection', function (socket) {

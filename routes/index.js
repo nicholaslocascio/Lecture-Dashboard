@@ -3,7 +3,7 @@
 */
 
 var express = require('express');
-var model = require('../data/model');
+var model = require('../data/lecture');
 var router = express.Router();
 
 router.get('/', function(req, res) {
