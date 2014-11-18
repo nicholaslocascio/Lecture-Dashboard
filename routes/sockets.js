@@ -44,15 +44,19 @@ module.exports = function(io) {
         studentStatus = StudentStateEnum.Confused;
         dConfused = 1;
       }
-      var newScore = lecture.createNewScore(dStudent, dConfused);
-      io.to(slug).emit('status update', newScore);
+      model.Lecture.findOne({
+        _id: slug
+      }, function(err, lecture) {
+        var newScore = lecture.createNewScore(dStudent, dConfused);
+        io.to(slug).emit('status update', newScore);
+      });
     });
 
     socket.on('disconnect', function() {
       var dStudent = -1;
       var dConfused = 0;
       if (studentStatus == StudentStateEnum.Confused) {
-        dConfused = 1;
+        dConfused = -1;
       }
       model.Lecture.findOne({
         _id: slug
