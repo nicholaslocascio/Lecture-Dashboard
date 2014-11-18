@@ -16,6 +16,7 @@ module.exports = function(io) {
         if (lecture) {
           slug = lecture._id;
           var newScore = lecture.createNewScore(1, 0);
+          socket.emit('student connected', lecture.scores);
           io.to(slug).emit('status update', newScore);
         }
       });
@@ -31,12 +32,10 @@ module.exports = function(io) {
 
     socket.join(slug);
 
-    // This is an example of how to emit to everyone in the room
-    io.to(slug).emit('news', {
-      hello: 'world'
-    });
-
     socket.on('status update', function(msg) {
+      if (!isStudent) {
+        return;
+      }
       var dStudent = 0;
       var dConfused = 0;
       if (studentStatus == StudentStateEnum.Confused) {
@@ -55,6 +54,9 @@ module.exports = function(io) {
     });
 
     socket.on('disconnect', function() {
+      if (!isStudent) {
+        return;
+      }
       var dStudent = -1;
       var dConfused = 0;
       if (studentStatus == StudentStateEnum.Confused) {

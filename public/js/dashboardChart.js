@@ -1,3 +1,8 @@
+var self = this;
+self.HUH = self.HUH || {};
+var HUH = self.HUH;
+HUH.Graph = {};
+
 $(function() {
 
   Chart.types.Line.extend({
@@ -116,8 +121,6 @@ $(function() {
 
         }, this);
 
-
-
         //Now draw the points over the line
         //A little inefficient double looping, but better than the line
         //lagging behind the point positions
@@ -130,11 +133,25 @@ $(function() {
   });
   //
 
-  //Chart.js Sample. Can replace this with whatever you want later.
+  var graphValueFromScore = function(score) {
+    var value = 1.0;
+    if (score.total !== 0) {
+      value = (1.0 - score.confused / score.total);
+    }
+    return value;
+  };
+
   var randomScalingFactor = function() {
     return Math.random() * 1;
   };
   var understandsArray = [1.0, 1.0];
+  var scoreArray = [{
+    confused: 0,
+    total: 0,
+  }, {
+    confused: 0,
+    total: 0,
+  }];
   var understandsTimeSeries = [{
     value: 1.0,
     time: new Date()
@@ -144,18 +161,13 @@ $(function() {
   }];
 
   var idealLabels = ["11:00AM", ""];
-  for (var i = 0; i < 120; i++) {
+  for (var i = 0; i < 100; i++) {
     idealLabels.push("");
   }
   var labelsArray = idealLabels;
 
-  var updateLabelsArray = function() {
-    if (understandsTimeSeries.length < idealLabels.length) {
-      return;
-    }
-  };
-
-  var updateChart = function(chart, value) {
+  var addPointToChart = function(value) {
+    var chart = window.myLine;
     var newTimeSeriesDataPoint = {
       value: value,
       time: new Date()
@@ -175,27 +187,39 @@ $(function() {
     var hue = greenHue * sigmoid(weight) + redHue * (1.0 - sigmoid(weight));
     var s = 70;
     var l = 50;
+    var dl = 40;
     var colorString = "hsl(" + hue + ", " + s + ", " + l + ")";
+    var strokeColorString = "hsl(" + hue + ", " + s + ", " + dl + ")";
     var fillColor = tinycolor(colorString);
+    var strokeColor = tinycolor(strokeColorString);
 
     var oldWeight = lastPoint.value;
     var oldHue = greenHue * sigmoid(oldWeight) + redHue * (1.0 - sigmoid(oldWeight));
     var oldColorString = "hsl(" + oldHue + ", " + s + ", " + l + ")";
-    var oldFillColor = tinycolor(oldColorString);
+    var oldStrokeColorString = "hsl(" + hue + ", " + s + ", " + dl + ")";
 
+    var oldFillColor = tinycolor(oldColorString);
+    var oldStrokeColor = tinycolor(oldStrokeColorString);
+
+    console.log(chart.scale.width / 100.0);
     var gradient = ctx.createLinearGradient(0, 0, 100, 0);
     gradient.addColorStop(0, oldFillColor);
     gradient.addColorStop(1, fillColor);
 
-    copiedPoint.strokeColor = fillColor.toHexString();
+    var gradientStroke = ctx.createLinearGradient(0, 0, 100, 0);
+    gradientStroke.addColorStop(0, oldStrokeColor);
+    gradientStroke.addColorStop(1, strokeColor);
+
+    copiedPoint.strokeColor = gradientStroke;
     copiedPoint.fillColor = gradient;
-    copiedPoint.highlightFill = fillColor.toHexString();
-    copiedPoint.highlightStroke = fillColor.toHexString();
+    copiedPoint.highlightFill = gradient;
+    copiedPoint.highlightStroke = gradient;
     chart.datasets[0].points.push(copiedPoint);
 
     chart.update();
-    updateLabelsArray();
   };
+
+  HUH.Graph.addPointToChart = addPointToChart;
 
   var lineChartData = {
     labels: labelsArray,
@@ -223,18 +247,28 @@ $(function() {
     animationSteps: 1,
     animationEasing: "linear",
     bezierCurve: false,
+    datasetStrokeWidth: 6,
   });
   window.myLine = lineChart;
 
-  setInterval(function() {
-    var lastValue = understandsTimeSeries[understandsTimeSeries.length - 1].value;
-    var newValue = lastValue + ((randomScalingFactor() - 0.5) / 2.0);
-    newValue = Math.max(Math.min(newValue, 1.0), 0.0);
-    if (randomScalingFactor() < 0.1) {
-      newValue = lastValue;
-    }
-    updateChart(lineChart, newValue);
+  var mostRecentValue = 1.0;
 
+  HUH.Graph.updateCurrentChartValueFromData = function(data) {
+    var value = graphValueFromScore(data);
+    mostRecentValue = value;
+  };
+
+  var addScoreToChart = function() {
+    var lastValue = understandsTimeSeries[understandsTimeSeries.length - 1].value;
+    var newValue = 0;
+    newValue = mostRecentValue;
+    addPointToChart(newValue);
+  };
+
+  HUH.Graph.addScoreToChart = addScoreToChart;
+
+  setInterval(function() {
+    addScoreToChart();
   }, 1000);
 
 });
