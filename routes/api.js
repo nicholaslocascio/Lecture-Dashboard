@@ -26,11 +26,7 @@ router.post('/lecture/new', function(req, res) {
 
   var adjNoun = require('adj-noun');
 
-  // seed it so your pairs are different than someone else using this lib
-  var d = new Date();
-  var n = d.getTime();
-  adjNoun.seed(n);
-  // -> true
+  adjNoun.seed(1593930);
 
   var randomSlug = adjNoun().join('-');
   var newLecture = new model.Lecture({
@@ -60,16 +56,20 @@ Response:
     error(500);  returns error message
 */
 router.get('/session', function(req, res) {
-    var db = req.db;
-    var userCriteria;
-    if(req.query.id){
-      userCriteria = {"_id":  req.query.id};
-    }else if(req.query.slug){
-      userCriteria = {"slug" : req.query.slug};
-    }
-    model.Lecture.findOne(userCriteria,function (err,item){
-      res.json(item);
-    });
+  var db = req.db;
+  var userCriteria;
+  if (req.query.id) {
+    userCriteria = {
+      "_id": req.query.id
+    };
+  } else if (req.query.slug) {
+    userCriteria = {
+      "slug": req.query.slug
+    };
+  }
+  model.Lecture.findOne(userCriteria, function(err, item) {
+    res.json(item);
+  });
 });
 
 

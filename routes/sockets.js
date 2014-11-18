@@ -15,7 +15,8 @@ module.exports = function(io) {
       }, function(err, lecture) {
         if (lecture) {
           slug = lecture._id;
-          lecture.createNewScore(1, 0);
+          var newScore = lecture.createNewScore(1, 0);
+          io.to(slug).emit('status update', newScore);
         }
       });
     } else {
@@ -27,6 +28,7 @@ module.exports = function(io) {
         }
       });
     }
+
     socket.join(slug);
 
     // This is an example of how to emit to everyone in the room
