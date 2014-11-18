@@ -48,7 +48,7 @@ module.exports = function(io) {
       io.to(slug).emit('status update', newScore);
     });
 
-    io.on('disconnect', function() {
+    socket.on('disconnect', function() {
       var dStudent = -1;
       var dConfused = 0;
       if (studentStatus == StudentStateEnum.Confused) {
