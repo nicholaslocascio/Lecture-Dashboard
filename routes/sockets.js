@@ -15,6 +15,7 @@ module.exports = function(io) {
       }, function(err, lecture) {
         if (lecture) {
           slug = lecture._id;
+          socket.emit('lecture', lecture);
           var newScore = lecture.createNewScore(1, 0);
           socket.emit('student connected', lecture.scores);
           io.to(slug).emit('status update', newScore);
@@ -33,9 +34,6 @@ module.exports = function(io) {
     socket.join(slug);
 
     socket.on('status update', function(msg) {
-      if (!isStudent) {
-        return;
-      }
       var dStudent = 0;
       var dConfused = 0;
       if (studentStatus == StudentStateEnum.Confused) {

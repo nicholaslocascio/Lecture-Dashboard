@@ -4,135 +4,38 @@ var HUH = self.HUH;
 HUH.Graph = {};
 
 $(function() {
+  var numSteps = 10 * 60;
+  var updateDt = 2000;
 
-  Chart.types.Line.extend({
+  var createGradient = function(data, lightness, saturation, width) {
+    if (!window.myLine) {
+      return "green";
+    }
+    var greenHue = 100.0;
+    var redHue = 0.0;
+    var s = saturation;
+    var l = lightness;
+    var numPoints = data.length;
+    var dx = 0.0;
+    if (numPoints !== 0) {
+      dx = 1.0 / numPoints;
+    }
+    var currentX = dx;
+    var gradient = ctx.createLinearGradient(0, 0, numPoints * window.myLine.chart.width / numSteps, 0);
 
-    name: "LineAlt",
-    initialize: function(data) {
-      Chart.types.Line.prototype.initialize.apply(this, arguments);
-    },
-    draw: function(ease) {
-      var easingDecimal = ease || 1;
-      this.clear();
-
-      var ctx = this.chart.ctx;
-
-      // Some helper methods for getting the next/prev points
-      var hasValue = function(item) {
-          return item.value !== null;
-        },
-        nextPoint = function(point, collection, index) {
-          return Chart.helpers.findNextWhere(collection, hasValue, index) || point;
-        },
-        previousPoint = function(point, collection, index) {
-          return Chart.helpers.findPreviousWhere(collection, hasValue, index) || point;
-        };
-
-      this.scale.draw(easingDecimal);
-      var points = this.datasets[0].points;
-      var gradientWidth = this.scale.calculateX((points.length - 1));
-      if (!gradientWidth) {
-        gradientWidth = 0.0;
-      }
-      this.datasets[0].fillColor = createGradient(points, 50, gradientWidth);
-      this.datasets[0].strokeColor = createGradient(points, 40, gradientWidth);
-
-      Chart.helpers.each(this.datasets, function(dataset) {
-        var pointsWithValues = Chart.helpers.where(dataset.points, hasValue);
-
-        //Transition each point first so that the line and point drawing isn't out of sync
-        //We can use this extra loop to calculate the control points of this dataset also in this loop
-
-        Chart.helpers.each(dataset.points, function(point, index) {
-          if (point.hasValue()) {
-            point.transition({
-              y: this.scale.calculateY(point.value),
-              x: this.scale.calculateX(index)
-            }, easingDecimal);
-          }
-        }, this);
-
-
-        // Control points need to be calculated in a seperate loop, because we need to know the current x/y of the point
-        // This would cause issues when there is no animation, because the y of the next point would be 0, so beziers would be skewed
-        if (this.options.bezierCurve) {
-          Chart.helpers.each(pointsWithValues, function(point, index) {
-            var tension = (index > 0 && index < pointsWithValues.length - 1) ? this.options.bezierCurveTension : 0;
-            point.controlPoints = Chart.helpers.splineCurve(
-              previousPoint(point, pointsWithValues, index),
-              point,
-              nextPoint(point, pointsWithValues, index),
-              tension
-            );
-
-            // Prevent the bezier going outside of the bounds of the graph
-
-            // Cap puter bezier handles to the upper/lower scale bounds
-            if (point.controlPoints.outer.y > this.scale.endPoint) {
-              point.controlPoints.outer.y = this.scale.endPoint;
-            } else if (point.controlPoints.outer.y < this.scale.startPoint) {
-              point.controlPoints.outer.y = this.scale.startPoint;
-            }
-
-            // Cap inner bezier handles to the upper/lower scale bounds
-            if (point.controlPoints.inner.y > this.scale.endPoint) {
-              point.controlPoints.inner.y = this.scale.endPoint;
-            } else if (point.controlPoints.inner.y < this.scale.startPoint) {
-              point.controlPoints.inner.y = this.scale.startPoint;
-            }
-          }, this);
-        }
-
-        //Draw the line between all the points
-        ctx.lineWidth = this.options.datasetStrokeWidth;
-        ctx.strokeStyle = dataset.strokeColor;
-        ctx.beginPath();
-
-        Chart.helpers.each(pointsWithValues, function(point, index) {
-          if (index === 0) {
-            ctx.moveTo(point.x, point.y);
-          } else {
-            if (this.options.bezierCurve) {
-              var previous = previousPoint(point, pointsWithValues, index);
-
-              ctx.bezierCurveTo(
-                previous.controlPoints.outer.x,
-                previous.controlPoints.outer.y,
-                point.controlPoints.inner.x,
-                point.controlPoints.inner.y,
-                point.x,
-                point.y
-              );
-            } else {
-              ctx.lineTo(point.x, point.y);
-            }
-          }
-        }, this);
-
-        ctx.stroke();
-
-        if (this.options.datasetFill && pointsWithValues.length > 0) {
-          //Round off the line by going to the base of the chart, back to the start, then fill.
-          ctx.lineTo(pointsWithValues[pointsWithValues.length - 1].x, this.scale.endPoint);
-          ctx.lineTo(pointsWithValues[0].x, this.scale.endPoint);
-          ctx.fillStyle = dataset.fillColor;
-          ctx.closePath();
-          ctx.fill();
-        }
-
-        //Now draw the points over the line
-        //A little inefficient double looping, but better than the line
-        //lagging behind the point positions
-
-        // Chart.helpers.each(pointsWithValues, function(point) {
-        //   point.draw();
-        // });
-
-
-      }, this);
+    for (var i in data) {
+      var point = data[i];
+      var value = point.value;
+      var hue = greenHue * sigmoid(value) + redHue * (1.0 - sigmoid(value));
+      var colorString = "hsl(" + hue + ", " + s + ", " + l + ")";
+      var color = tinycolor(colorString);
+      gradient.addColorStop(currentX, color);
+      currentX += dx;
+      currentX = Math.min(currentX, 1.0);
     }
 
-  });
+    return gradient;
+  };
   //
 
   var graphValueFromScore = function(score) {
@@ -162,8 +65,9 @@ $(function() {
     time: new Date()
   }];
 
+
   var idealLabels = ["11:00AM", ""];
-  for (var i = 0; i < 100; i++) {
+  for (var i = 0; i < numSteps; i++) {
     idealLabels.push("");
   }
   var labelsArray = idealLabels;
@@ -201,7 +105,7 @@ $(function() {
   };
 
   var ctx = document.getElementById("graph").getContext("2d");
-  var lineChart = new Chart(ctx).LineAlt(lineChartData, {
+  var lineChart = new Chart(ctx).Line(lineChartData, {
     responsive: true,
     scaleOverride: true,
     scaleSteps: 4,
@@ -209,10 +113,12 @@ $(function() {
     scaleStartValue: 0,
     pointDot: false,
     scaleOverlay: false,
-    animationSteps: 1,
-    animationEasing: "linear",
+    // animationSteps: 1,
+    // animationEasing: "linear",
+    animation: false,
     bezierCurve: true,
-    datasetStrokeWidth: 6,
+    scaleShowGridLines: false,
+    datasetStrokeWidth: 4,
   });
   window.myLine = lineChart;
 
@@ -221,6 +127,7 @@ $(function() {
   HUH.Graph.updateCurrentChartValueFromData = function(data) {
     var value = graphValueFromScore(data);
     mostRecentValue = value;
+    updateGradient();
   };
 
   var addScoreToChart = function() {
@@ -232,43 +139,26 @@ $(function() {
 
   HUH.Graph.addScoreToChart = addScoreToChart;
 
+  var updateGradient = function() {
+    var points = window.myLine.datasets[0].points;
+
+    var gradientWidth = points[points.length - 1].x - points[0].x;
+    if (!gradientWidth) {
+      gradientWidth = 0.0;
+    }
+
+    window.myLine.datasets[0].fillColor = createGradient(points, "85%", "70%", gradientWidth);
+    window.myLine.datasets[0].strokeColor = createGradient(points, "60%", "70%", gradientWidth);
+  };
+
   setInterval(function() {
+    updateGradient();
     addScoreToChart();
-  }, 1000);
+  }, updateDt);
+
 
   var sigmoid = function(x) {
     return (1.0 / (1.0 + Math.exp(-(10 * (x - 0.5)))));
-  };
-  var createGradient = function(data, lightness, width) {
-    console.log('data');
-    console.log(data);
-    var greenHue = 90.0;
-    var redHue = 0.0;
-    var s = 70;
-    var l = lightness;
-    var numPoints = data.length;
-    var dx = 0.0;
-    if (numPoints !== 0) {
-      dx = 1.0 / numPoints;
-    }
-    var currentX = dx;
-    console.log(window.myLine);
-    var gradient = ctx.createLinearGradient(0, 0, numPoints * window.myLine.chart.width / 100, 0);
-
-    for (var i in data) {
-      console.log(currentX);
-
-      var point = data[i];
-      var value = point.value;
-      var hue = greenHue * sigmoid(value) + redHue * (1.0 - sigmoid(value));
-      var colorString = "hsl(" + hue + ", " + s + ", " + l + ")";
-      var color = tinycolor(colorString);
-      gradient.addColorStop(currentX, color);
-      currentX += dx;
-      currentX = Math.min(currentX, 1.0);
-    }
-
-    return gradient;
   };
 
 });

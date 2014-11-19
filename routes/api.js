@@ -26,7 +26,11 @@ router.post('/lecture/new', function(req, res) {
 
   var adjNoun = require('adj-noun');
 
-  adjNoun.seed(1593930);
+  // seed it so your pairs are different than someone else using this lib
+  var d = new Date();
+  var n = d.getTime();
+  adjNoun.seed(n);
+  // -> true
 
   var randomSlug = adjNoun().join('-');
   var newLecture = new model.Lecture({

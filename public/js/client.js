@@ -11,8 +11,15 @@ $(function() {
     if (score) {
       $('#listeners').html(score.total);
     }
+    updateUnderstandingFromScore(score);
     initGraphScores(scores);
   });
+
+  var updateUnderstandingFromScore = function(score) {
+    if (score && score.total > 0) {
+      $('#understanding').html((100 * (1 - (score.confused / score.total))).toPrecision(3) + " %");
+    }
+  };
 
   var initGraphScores = function(scores) {
     for (var i in scores) {
@@ -30,6 +37,9 @@ $(function() {
   socket.on('status update', function(data) {
     $('#listeners').html(data.total);
     HUH.Graph.updateCurrentChartValueFromData(data);
+    var score = data;
+    updateUnderstandingFromScore(score);
+    console.log("updated!");
   });
 
   $('.huh-button').click(function() {
@@ -39,7 +49,7 @@ $(function() {
       $(this).text('Huh?');
     } else {
       $(this).addClass('green-button');
-      $(this).text('I get it!');
+      $(this).text('Wait, I get it!');
     }
   });
 });
