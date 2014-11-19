@@ -32,7 +32,7 @@ $(function() {
   };
 
   socket.on('student connected', function(scores) {
-    initGraphScores(scores);
+
   });
 
   // This is an example of how to receive an event in the client

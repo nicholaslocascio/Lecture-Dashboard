@@ -4,7 +4,7 @@ var HUH = self.HUH;
 HUH.Graph = {};
 
 $(function() {
-  var numSteps = 60 * 120;
+  var numSteps = 60 * 60;
   var updateDt = 500;
 
   var createGradient = function(data, lightness, saturation, width) {
@@ -142,7 +142,7 @@ $(function() {
   var updateGradient = function() {
     var points = window.myLine.datasets[0].points;
 
-    var gradientWidth = ((points[points.length - 1].x - points[0].x) / numSteps) * 800.0;
+    var gradientWidth = 1.0;
     if (!gradientWidth) {
       gradientWidth = 0.0;
     }
