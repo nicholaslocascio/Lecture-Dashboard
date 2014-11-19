@@ -26,6 +26,6 @@ templates['lectureGraph'] = template({"compiler":[6,">= 2.0.0-beta.1"],"main":fu
   return " <div class=\"embed-responsive embed-responsive-16by9\" id=\"player\">\n  	<canvas id=\"graph\"></canvas>\n</div>";
   },"useData":true});
 templates['sessionLinks'] = template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-  return "<p>Give this link to your audience members to get live feedback:</p>\n<div id=\"link\" class=\"input-group input-group-sm\">\n	<a id=\"linkanchor\" href=\"#\"><span class=\"input-group-addon\"><span class=\"glyphicon glyphicon-link\"></span></span></a>\n	<input type=\"text\" id=\"link-text\" class=\"form-control\" placeholder=\"Link\" readonly>\n</div>\n";
+  return "<p>Give this link to your audience members to get live feedback:</p>\n<div id=\"link\" class=\"input-group input-group-sm\">\n	<span class=\"input-group-addon\"><span class=\"glyphicon glyphicon-link\"></span></span>\n	<input type=\"text\" id=\"link-text\" class=\"form-control\" placeholder=\"Link\" readonly>\n</div>\n";
   },"useData":true});
 })();
