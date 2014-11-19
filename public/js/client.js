@@ -5,7 +5,9 @@ var HUH = self.HUH;
 $(function() {
   var socket = io.connect();
   socket.on('lecture', function(lecture) {
-    $('#link-text').val('http://' + window.location.host + '/class/' + lecture.slug);
+    var url = 'http://' + window.location.host + '/class/' + lecture.slug;
+    $('#link-text').val(url);
+    $('#linkanchor').attr("href", url);
     var scores = lecture.scores;
     var score = scores[scores.length - 1];
     if (score) {

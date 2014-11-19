@@ -142,7 +142,7 @@ $(function() {
   var updateGradient = function() {
     var points = window.myLine.datasets[0].points;
 
-    var gradientWidth = "100%";
+    var gradientWidth = ((points[points.length - 1].x - points[0].x) / numSteps) * 800.0;
     if (!gradientWidth) {
       gradientWidth = 0.0;
     }
