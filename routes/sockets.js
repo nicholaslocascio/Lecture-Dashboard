@@ -8,30 +8,32 @@ module.exports = function(io) {
   io.sockets.on('connection', function(socket) {
     var isStudent = socket.handshake.headers.referer.split('/').slice(-2)[0] === 'class';
     var studentStatus = StudentStateEnum.IGetIt;
-    var slug = socket.handshake.headers.referer.split('/').slice(-1)[0];
+    var headerParam = socket.handshake.headers.referer.split('/').slice(-1)[0];
+    var lectureId;
     if (isStudent) {
       model.Lecture.findOne({
-        slug: slug
+        slug: headerParam
       }, function(err, lecture) {
         if (lecture) {
-          slug = lecture._id;
+          lectureId = lecture._id;
+          socket.join(lectureId);
           socket.emit('lecture', lecture);
           var newScore = lecture.createNewScore(1, 0);
           socket.emit('student connected', lecture.scores);
-          io.to(slug).emit('status update', newScore);
+          io.to(lectureId).emit('status update', newScore);
         }
       });
     } else {
       model.Lecture.findOne({
-        _id: slug
+        _id: headerParam
       }, function(err, lecture) {
         if (lecture) {
+          lectureId = lecture._id;
+          socket.join(lectureId);
           socket.emit('lecture', lecture);
         }
       });
     }
-
-    socket.join(slug);
 
     socket.on('status update', function(msg) {
       var dStudent = 0;
@@ -44,10 +46,11 @@ module.exports = function(io) {
         dConfused = 1;
       }
       model.Lecture.findOne({
-        _id: slug
+        _id: lectureId
       }, function(err, lecture) {
         var newScore = lecture.createNewScore(dStudent, dConfused);
-        io.to(slug).emit('status update', newScore);
+        io.to(lectureId).emit('status update', newScore);
+
       });
     });
 
@@ -61,10 +64,10 @@ module.exports = function(io) {
         dConfused = -1;
       }
       model.Lecture.findOne({
-        _id: slug
+        _id: lectureId
       }, function(err, lecture) {
         var newScore = lecture.createNewScore(dStudent, dConfused);
-        io.to(slug).emit('status update', newScore);
+        io.to(lectureId).emit('status update', newScore);
       });
     });
   });

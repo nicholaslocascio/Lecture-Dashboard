@@ -4,8 +4,8 @@ var HUH = self.HUH;
 HUH.Graph = {};
 
 $(function() {
-  var numSteps = 10 * 60;
-  var updateDt = 2000;
+  var numSteps = 60 * 120;
+  var updateDt = 500;
 
   var createGradient = function(data, lightness, saturation, width) {
     if (!window.myLine) {
@@ -65,8 +65,7 @@ $(function() {
     time: new Date()
   }];
 
-
-  var idealLabels = ["11:00AM", ""];
+  var idealLabels = ["", ""];
   for (var i = 0; i < numSteps; i++) {
     idealLabels.push("");
   }
@@ -119,6 +118,7 @@ $(function() {
     bezierCurve: true,
     scaleShowGridLines: false,
     datasetStrokeWidth: 4,
+    showTooltips: false,
   });
   window.myLine = lineChart;
 
