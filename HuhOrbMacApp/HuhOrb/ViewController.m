@@ -95,7 +95,7 @@
     
     // Do any additional setup after loading the view.
     
-    [NSTimer scheduledTimerWithTimeInterval:2.0
+    [NSTimer scheduledTimerWithTimeInterval:1
                                      target:self
                                    selector:@selector(updateSession)
                                    userInfo:nil
