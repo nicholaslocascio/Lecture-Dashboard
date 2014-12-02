@@ -13,8 +13,9 @@ var router = express.Router();
 Create a new lecture session
 POST /api/lecture/new
 Request parameters:
-    name: (String) name of the professor
-  <- FILL THIS OUT ->
+    className: (String) name of the class
+	lecturerName: (String) name of the lecturer
+	topic: (String) topic of the class
 Response:
     success(200): returns the newly creaeted lecture object 
     error(500);  returns error message
@@ -50,13 +51,12 @@ router.post('/lecture/new', function(req, res) {
 });
 
 /*
-Create a new lecture session
-GET /api/session/new
+Returns the lecture session object
+GET /api/session/
 Request parameters:
-    slug: (String) name of the professor
-  <- FILL THIS OUT ->
+    id: (String) the id or slug of the session
 Response:
-    success(200): returns the newly creaeted lecture object 
+    success(200): returns the lecture object 
     error(500);  returns error message
 */
 router.get('/session', function(req, res) {
