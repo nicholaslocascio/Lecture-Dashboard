@@ -684,8 +684,8 @@
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="nfr-nq-skW">
-                                <rect key="frame" x="206" y="141" width="69" height="17"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Session Id" id="HQg-51-fjf">
+                                <rect key="frame" x="204" y="141" width="73" height="17"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Session Id:" id="HQg-51-fjf">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -720,10 +720,44 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
+                            <popUpButton verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pVm-Ry-gR1">
+                                <rect key="frame" x="238" y="226" width="176" height="26"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="141" id="LFo-Ku-MTk"/>
+                                </constraints>
+                                <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="f3s-o3-DZa">
+                                    <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="menu"/>
+                                    <menu key="menu" id="qxz-9I-KHK">
+                                        <items>
+                                            <menuItem title="Item 1" id="7uf-58-9s3"/>
+                                            <menuItem title="Item 2" id="6v9-tk-evs"/>
+                                            <menuItem title="Item 3" id="HmL-bK-wvO"/>
+                                        </items>
+                                    </menu>
+                                </popUpButtonCell>
+                                <connections>
+                                    <action selector="serialPortSelected:" target="XfG-lQ-9wD" id="B1H-Jf-nbF"/>
+                                </connections>
+                            </popUpButton>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="kke-0X-oLJ">
+                                <rect key="frame" x="98" y="222" width="124" height="32"/>
+                                <buttonCell key="cell" type="push" title="Refresh Ports" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="66D-c4-C8R">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="refreshAction:" target="XfG-lQ-9wD" id="8Ls-e7-RtL"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <constraints>
+                            <constraint firstItem="pVm-Ry-gR1" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="20" id="FBb-AS-U6r"/>
+                            <constraint firstAttribute="trailing" secondItem="pVm-Ry-gR1" secondAttribute="trailing" constant="69" id="GFs-f3-5TV"/>
                             <constraint firstItem="MG0-jP-f99" firstAttribute="top" secondItem="8nX-rd-heq" secondAttribute="bottom" constant="8" id="K6Y-gD-0Ix"/>
+                            <constraint firstItem="kke-0X-oLJ" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="20" id="KAY-c8-iAC"/>
                             <constraint firstItem="zf3-UB-CdH" firstAttribute="top" secondItem="MG0-jP-f99" secondAttribute="bottom" constant="49" id="Lrk-LT-5Cm"/>
+                            <constraint firstItem="kke-0X-oLJ" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="104" id="NW5-j0-Oy4"/>
                             <constraint firstAttribute="centerY" secondItem="8nX-rd-heq" secondAttribute="centerY" constant="-13" id="PWc-3S-Gyr"/>
                             <constraint firstAttribute="centerY" secondItem="oLj-oF-vtU" secondAttribute="centerY" constant="-12.5" id="RYp-U2-JRa"/>
                             <constraint firstItem="8nX-rd-heq" firstAttribute="top" secondItem="nfr-nq-skW" secondAttribute="bottom" constant="8" id="afd-wN-U1B"/>
@@ -736,6 +770,7 @@
                     </view>
                     <connections>
                         <outlet property="errorLabel" destination="zf3-UB-CdH" id="wl0-mr-E0w"/>
+                        <outlet property="serialListPullDown" destination="pVm-Ry-gR1" id="7ND-ZU-j2J"/>
                         <outlet property="sessionInput" destination="8nX-rd-heq" id="8Zh-Vu-U4Y"/>
                         <outlet property="statusLabel" destination="MG0-jP-f99" id="YkX-Gw-4k7"/>
                     </connections>
