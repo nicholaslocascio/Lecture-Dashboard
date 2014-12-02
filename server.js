@@ -81,8 +81,8 @@ app.use(function(err, req, res, next) {
   });
 });
 
-var port = process.env.OPENSHIFT_NODEJS_PORT;
-var ip = process.env.OPENSHIFT_NODEJS_IP;
+var port = process.env.OPENSHIFT_NODEJS_PORT || process.env.PORT;
+var ip = process.env.OPENSHIFT_NODEJS_IP || process.env.IP;
 
 var debug = require('debug')('ld');
 
