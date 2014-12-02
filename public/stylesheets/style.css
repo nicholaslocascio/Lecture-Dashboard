@@ -4,8 +4,12 @@ html, body {
   background-color: #900000;
   font-family: 'Open Sans', sans-serif;
 }
+a {
+  color: #ddd;
+}
 a:hover {
-  text-decoration: none;
+	color: #ddd;
+	text-decoration: none;
 }
 #main {
   height: 100%;
