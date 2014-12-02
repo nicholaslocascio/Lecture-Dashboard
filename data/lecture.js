@@ -8,6 +8,7 @@ var scoreSchema = new Schema({
   total: Number,
   confused: Number,
 });
+
 scoreSchema.plugin(timestamps);
 var Score = mongoose.model('Score', scoreSchema);
 
@@ -20,8 +21,15 @@ var lectureSchema = new Schema({
   scores: [scoreSchema]
 });
 
+/*
+Returns the lecture session page for the lecturer
+Input parameters:
+    totalDelta: (Integer) Either -1, 0, or 1 represents a change in the number of people in the audience
+	confusedDelta: (Integer) Either -1, 0, or 1 represents a change in the number of people confused
+Returns:
+    The score object calculated from the given delta values
+*/
 lectureSchema.methods.createNewScore = function(totalDelta, confusedDelta){
-	console.log("hello");
 	if (this.scores.length != 0){
 		var lastScore = this.scores[this.scores.length-1];
 	}
@@ -36,5 +44,4 @@ lectureSchema.methods.createNewScore = function(totalDelta, confusedDelta){
 };
 
 var Lecture = mongoose.model('Lecture', lectureSchema);
-
 exports.Lecture = Lecture;

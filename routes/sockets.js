@@ -4,7 +4,11 @@ var StudentStateEnum = {
   "Confused": "Confused",
   "IGetIt": "IGetIt"
 };
+
 module.exports = function(io) {
+	
+  // Return lecture object if audience member connects
+  // Update score for all connected audience members
   io.sockets.on('connection', function(socket) {
     var isStudent = socket.handshake.headers.referer.split('/').slice(-2)[0] === 'class';
     var studentStatus = StudentStateEnum.IGetIt;
@@ -34,7 +38,8 @@ module.exports = function(io) {
         }
       });
     }
-
+	
+	// Upon receiving a status update - inform all connected clients
     socket.on('status update', function(msg) {
       var dStudent = 0;
       var dConfused = 0;
@@ -54,6 +59,7 @@ module.exports = function(io) {
       });
     });
 
+	// Update score for all clients if audience member disconnects
     socket.on('disconnect', function() {
       if (!isStudent) {
         return;
