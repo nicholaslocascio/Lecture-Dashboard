@@ -22,7 +22,7 @@
     }
     
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    NSString *host = @"http://ld-kulpreet.rhcloud.com/";
+    NSString *host = @"http://huh.herokuapp.com/";
     NSString *urlPath = [NSString stringWithFormat:@"api/session/?id=%@", sessionId];
     NSString *url = [NSString stringWithFormat: @"%@%@", host, urlPath];
     [manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -95,7 +95,7 @@
     
     // Do any additional setup after loading the view.
     
-    [NSTimer scheduledTimerWithTimeInterval:1
+    [NSTimer scheduledTimerWithTimeInterval:2.0
                                      target:self
                                    selector:@selector(updateSession)
                                    userInfo:nil
