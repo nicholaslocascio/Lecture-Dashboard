@@ -18,7 +18,7 @@ templates['lectureDetails'] = template({"compiler":[6,">= 2.0.0-beta.1"],"main":
 },"useData":true});
 templates['lectureFooter'] = template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
   var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
-  return "<div class=\"panel-body\"></div>\n<div class=\"panel-footer\">Welcome, "
+  return "<div class=\"panel-body\" id=\"color-bar\"></div>\n<div class=\"panel-footer\">Welcome, "
     + escapeExpression(((helper = (helper = helpers.lecturerName || (depth0 != null ? depth0.lecturerName : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"lecturerName","hash":{},"data":data}) : helper)))
     + ".\n	<span class=\"right\"><a href=\"/\">End Lecture</a></span>\n</div>";
 },"useData":true});

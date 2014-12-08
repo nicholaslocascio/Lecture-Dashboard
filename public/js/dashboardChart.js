@@ -45,7 +45,7 @@ $(function() {
     }
     return value;
   };
-
+  HUH.graphValueFromScore = graphValueFromScore;
   var randomScalingFactor = function() {
     return Math.random() * 1;
   };

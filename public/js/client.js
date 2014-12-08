@@ -1,6 +1,7 @@
 var self = this;
 self.HUH = self.HUH || {};
 var HUH = self.HUH;
+HUH.scores = [];
 
 $(function() {
   var socket = io.connect();
@@ -14,20 +15,26 @@ $(function() {
       $('#listeners').html(score.total);
     }
     updateUnderstandingFromScore(score);
-    initGraphScores(scores);
+    HUH.Series.initSeriesWithPoints(scores);
   });
+  var sigmoid = function(x) {
+    return (1.0 / (1.0 + Math.exp(-(10 * (x - 0.5)))));
+  };
 
   var updateUnderstandingFromScore = function(score) {
     if (score && score.total > 0) {
       $('#understanding').html((100 * (1 - (score.confused / score.total))).toPrecision(3) + " %");
-    }
-  };
-
-  var initGraphScores = function(scores) {
-    for (var i in scores) {
-      var score = scores[i];
-      HUH.Graph.updateCurrentChartValueFromData(score);
-      HUH.Graph.addScoreToChart();
+      var value = HUH.Series.valueFromScore(score);
+      var greenHue = 100.0;
+      var redHue = 0.0;
+      var s = "70%";
+      var l = "60%";
+      var hue = greenHue * sigmoid(value) + redHue * (1.0 - sigmoid(value));
+      var colorString = "hsl(" + hue + ", " + s + ", " + l + ")";
+      var color = tinycolor(colorString);
+      console.log(color.toHex());
+      $('#lectureFooter-container').css('background-color', "#" + color.toHex());
+      console.log("reer");
     }
   };
 
@@ -38,8 +45,9 @@ $(function() {
   // This is an example of how to receive an event in the client
   socket.on('status update', function(data) {
     $('#listeners').html(data.total);
-    HUH.Graph.updateCurrentChartValueFromData(data);
+    // HUH.Graph.updateCurrentChartValueFromData(data);
     var score = data;
+    HUH.scores.push(data);
     updateUnderstandingFromScore(score);
     console.log("updated!");
   });
